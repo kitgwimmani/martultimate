@@ -1,0 +1,22 @@
+.app-container {
+  display: flex;
+  /* Full height of the viewport */
+}
+
+.sidebar {
+  flex: 0 0 auto; /* Adjust the width as needed */
+  background-color: #f1f1f1; /* Set a background color for the sidebar */
+}
+
+.main-content {
+  flex-grow: 1; /* Allow the main content to grow and fill the remaining space */
+  background-color: #f1f1f1;
+}
+
+.prefill{
+  background-color: rgb(234, 255, 248);
+}
+
+
+
+/* Add any other styling as needed */
