@@ -17,6 +17,20 @@
   background-color: rgb(234, 255, 248);
 }
 
+.yellow {
+  background-color: yellow;
+}
 
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.transparent {
+  background-color: transparent;
+}
 
 /* Add any other styling as needed */

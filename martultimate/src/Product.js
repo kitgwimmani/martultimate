@@ -14,6 +14,22 @@ function Product() {
       .catch(err => console.log(err));
   }, [])
 
+  const handleActivate = async (id) => {
+    await axios.put('http://localhost:8081/activateProduct/' + id)
+    window.location.reload()
+  }
+
+
+  const handleDecline = async (id) => {
+    await axios.put('http://localhost:8081/declineProduct/' + id)
+    window.location.reload()
+  }
+
+  const handlePending = async (id) => {
+    await axios.put('http://localhost:8081/pendingProduct/' + id)
+    window.location.reload()
+  }
+
   const handleDelete = async (id) => {
     try {
       if (confirmDelete()){
@@ -55,6 +71,7 @@ function Product() {
                 <th>Business</th>
                 <th>Price</th>
                 <th>Product Type</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -78,19 +95,34 @@ function Product() {
                     <td>{data.business}</td>
                     <td>{data.price}</td>
                     <td>{data.product_type}</td>
+                    <td style={{
+                      backgroundColor:
+                        data.status === 0 ? '#ffff00' :
+                          data.status === 1 ? '#aaffaa' :
+                            data.status === 2 ? '#ffaaaa' :
+                              'black'
+                    }}>
+                      {data.status === 0 ? 'Pending' :
+                        data.status === 1 ? 'Active' :
+                          data.status === 2 ? 'Declined' :
+                            'Unknown'}
+                    </td>
                     <td> <ButtonGroup>
-                      <Link to={`updateProduct/${data.id}`} 
-                      className='btn btn-warning btn-sm'
+                      <button onClick={e => handleActivate(data.id)}
+                        className='btn btn-light btn-sm'
                       >
-                      Update</Link>
+                        Activate</button>
                       <Dropdown >
-                        <Dropdown.Toggle split variant="warning" 
-                        className='btn-sm' 
-                        id="dropdown-split-basic" />
+                        <Dropdown.Toggle split variant="light"
+                          className='btn-sm'
+                          id="dropdown-split-basic" />
                         <Dropdown.Menu>
-                          <Dropdown.Item onClick={e => handleDelete(data.id)}>Delete</Dropdown.Item>
+                          <Dropdown.Item onClick={e => handlePending(data.id)}>Keep Pending</Dropdown.Item>
                           <Dropdown.Divider />
-                          <Dropdown.Item href="#">{data.status ? 'Activate' : 'Deactivate'}</Dropdown.Item>
+                          <Dropdown.Item onClick={e => handleDecline(data.id)}>Decline</Dropdown.Item>
+                          <Dropdown.Divider />
+                          <Dropdown.Item onClick={e => handleDelete(data.id)}>Delete</Dropdown.Item>
+
                         </Dropdown.Menu>
                       </Dropdown>
                     </ButtonGroup></td>

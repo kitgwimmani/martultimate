@@ -66,6 +66,35 @@ app.put('/updateBusiness/:id', (req, res) => {
         return res.json(data);
     })
 })
+
+app.put('/activateBusiness/:id', (req, res) => {
+    const sql = "UPDATE business set `status` = 1 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/declineBusiness/:id', (req, res) => {
+    const sql = "UPDATE business set `status` = 2 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/pendingBusiness/:id', (req, res) => {
+    const sql = "UPDATE business set `status` = 0 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+
 app.delete('/business/:id', (req, res) => {
     const sql = "DELETE FROM business where id = ?";
     const id = req.params.id;
@@ -296,6 +325,33 @@ app.put('/updateCustomer/:id', (req, res) => {
     })
 })
 
+app.put('/activateCustomer/:id', (req, res) => {
+    const sql = "UPDATE customer set `status` = 1 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/declineCustomer/:id', (req, res) => {
+    const sql = "UPDATE customer set `status` = 2 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/pendingCustomer/:id', (req, res) => {
+    const sql = "UPDATE customer set `status` = 0 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
 app.delete('/customer/:id', (req, res) => {
     const sql = "DELETE FROM customer where id = ?";
     const id = req.params.id;
@@ -363,6 +419,33 @@ app.put('/updateProduct/:id', (req, res) => {
     ]
     const id = req.params.id;
     db.query(sql, [...values, id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/activateProduct/:id', (req, res) => {
+    const sql = "UPDATE product set `status` = 1 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/declineProduct/:id', (req, res) => {
+    const sql = "UPDATE product set `status` = 2 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.put('/pendingProduct/:id', (req, res) => {
+    const sql = "UPDATE product set `status` = 0 where id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
         if(err) return res.json("Error");
         return res.json(data);
     })
