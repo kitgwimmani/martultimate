@@ -1,10 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require('express-fileupload');
 const mysql = require("mysql")
 const app = express();
 
 app.use(express.json())
 app.use(cors());
+app.use(fileUpload());
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -20,8 +22,16 @@ app.get("/business", (req, res) => {
         return res.json(data);
     })
 });
+
+app.get("/business_frontend", (req, res) => {
+    const sql = "SELECT * from business where status = 1";
+    db.query(sql, (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+});
 app.get("/getBusiness/:id", (req, res) => {
-    const sql = "SELECT * FROM business WHERE id = ? LIMIT 1";
+    const sql = "SELECT * FROM business WHERE id = ?  LIMIT 1";
     const id = req.params.id;
     db.query(sql, [id], (err, data) => {
         if (err) {
@@ -32,22 +42,64 @@ app.get("/getBusiness/:id", (req, res) => {
     });
 });
 
+//############## Image upload
+//################
+// Set up storage engine with multer
+
+//############## Image upload
+//################
 app.post('/createBusiness', (req, res) => {
-    const sql = "INSERT INTO business (`name`,`location`,`profile`,`year_established`,`phone`,`email`,`web_url`) VALUES (?)";
-    const values = [
-        req.body.name, 
-        req.body.location,
-        req.body.profile,
-        req.body.year_established,
-        req.body.phone,
-        req.body.email,
-        req.body.web_url
-    ]
-    db.query(sql, [values], (err, data) => {
-        if(err) return res.json("Error");
-        return res.json(data);
-    })
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "profileImage") is used to retrieve the uploaded file
+    let profileImage = req.files.profileImage;
+    
+    // Extract the file extension
+    let fileExtension = profileImage.name.split('.').pop();
+    
+    // Set the new filename to req.body.name with the original file extension
+    let filename = `${req.body.name}.${fileExtension}`;
+    
+    // Set the upload path
+    let uploadPath = __dirname + '/uploads/' + filename;
+
+    // Use the mv() method to place the file somewhere on your server
+    profileImage.mv(uploadPath, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+
+        // Insert form data and file path into the database
+        const sql = "INSERT INTO business (`name`, `location`, `slogan`, `year_established`, `phone`, `email`, `web_url`, `logo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        const values = [
+            req.body.name, 
+            req.body.location,
+            req.body.slogan,
+            req.body.year_established,
+            req.body.phone,
+            req.body.email,
+            req.body.web_url,
+            filename // Save the new filename in the database
+        ];
+
+        db.query(sql, values, (err, data) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Error inserting data", error: err });
+            }
+            return res.status(201).json({ message: "Business created successfully", data: data, imageUrl: `/uploads/${filename}` });
+        });
+    });
 });
+
+
+//serve static files
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
+
 
 app.put('/updateBusiness/:id', (req, res) => {
     const sql = "UPDATE business set `name` = ?, `location` = ?, `profile` = ?, `year_established` = ?, `phone` = ?, `email` = ?, `web_url` = ? where id = ?";
@@ -378,6 +430,27 @@ app.get("/product", (req, res) => {
         return res.json(data);
     })
 })
+//###########################################################
+app.get("/product_detail", (req, res) => {
+    const sql = "SELECT * from product_detail ORDER BY category ASC";
+    db.query(sql, (err, data) => {
+        if(err) return res.json("Error");
+        return res.json(data);
+    })
+})
+
+app.get("/product_detail/:id", (req, res) => {
+    const sql = "SELECT * from product_detail WHERE business_id = ?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+        return res.json(data);
+    });
+})
+//###########################################################
 
 app.get("/getProduct/:id", (req, res) => {
     const sql = "SELECT * FROM product WHERE id = ? LIMIT 1";
@@ -392,19 +465,47 @@ app.get("/getProduct/:id", (req, res) => {
 });
 
 app.post('/createProduct', (req, res) => {
-    const sql = "INSERT INTO product (`subcategory`,`name`,`description`,`business`,`price`,`product_type`) VALUES (?)";
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "profileImage") is used to retrieve the uploaded file
+    let profileImage = req.files.profileImage;
+    
+    // Extract the file extension
+    let fileExtension = profileImage.name.split('.').pop();
+    
+    // Set the new filename to req.body.name with the original file extension
+    let filename = `${req.body.name}.${fileExtension}`;
+    
+    // Set the upload path
+    let uploadPath = __dirname + '/uploads/' + filename;
+
+    // Use the mv() method to place the file somewhere on your server
+    profileImage.mv(uploadPath, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+
+    const sql = "INSERT INTO product (`subcategory`,`name`,`description`,`business`,`price`,`product_type`,`image`) VALUES (?,?,?,?,?,?,?)";
     const values = [
         req.body.subcategory,
         req.body.name,
         req.body.description,
         req.body.business,
         req.body.price,
-        req.body.product_type
+        req.body.product_type,
+        filename
     ]
-    db.query(sql, [values], (err, data) => {
-        if(err) return res.json("Error");
-        return res.json(data);
-    })
+    db.query(sql, values, (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Error inserting data", error: err });
+        }
+        return res.status(201).json({ message: "Product created successfully", data: data, imageUrl: `/uploads/${filename}` });
+    });
+});
 })
 
 app.put('/updateProduct/:id', (req, res) => {

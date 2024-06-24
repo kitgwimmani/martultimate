@@ -1,0 +1,127 @@
+.app-container {
+  display: flex;
+  /* Full height of the viewport */
+}
+
+.sidebar {
+  flex: 0 0 auto; /* Adjust the width as needed */
+  background-color: #f1f1f1; /* Set a background color for the sidebar */
+}
+
+.main-content {
+  flex-grow: 1; /* Allow the main content to grow and fill the remaining space */
+  background-color: #ffffff;
+}
+
+.prefill{
+  background-color: rgb(234, 255, 248);
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.transparent {
+  background-color: transparent;
+}
+
+.img_style{
+  border-radius: 10px;
+}
+.menu_logo{
+  width: 80px;
+  height: 64px;
+  background-color: white;
+  margin-top: -4px;
+}
+.main_nav{
+  box-shadow: 0;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.full-width-important {
+  width: 100% !important;
+}
+.home-menu{
+  color: green;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: smaller;
+  font-weight: lighter;
+}
+.home-menu-light{
+  color: #004000;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: x-small;
+  font-weight: lighter;
+}
+.business-logo{
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+}
+.business-title{
+  color: #aaffaa;
+}
+.business-subtitle{
+  font-size: small;
+  color: #fafffa;
+  font-weight: lighter;
+}
+.business-url{
+  font-size: x-small;
+  color: #0080ff;
+}
+.business-card{
+  padding:10px;
+  border: solid 1px #fafffa;
+  border-radius: 10px;
+  background-color: #062906;
+}
+.product-logo{
+  width: 100%;
+  height: 100px;
+}
+.product-title{
+  color: #515a51;
+  font-weight: bold;
+}
+.product-subtitle{
+  font-size: x-small;
+  color: #3f473f;
+  font-weight: lighter;
+}
+.product-badge{
+padding: 4px;
+background-color: #f8faf8;
+border-radius: 5px;
+
+}
+.product-subtitle-bold{
+  font-size: x-small;
+  color: #357535;
+  font-weight: bold;
+}
+.product-card{
+  border: solid 1px #eaeaea;
+  padding: 10px;
+  background-color: #ffffff;
+}
+.tiny_logo{
+  border-radius: 2px;
+  width: 16px;
+  height: 16px;
+}
+.profile_logo{
+  width: 100px;
+  height: 100px;
+  border: 10px;
+}
+
+/* Add any other styling as needed */

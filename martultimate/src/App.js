@@ -5,6 +5,8 @@ import Sidebar from './components/Sidebar';
 
 import Dashboard from './Dashboard';
 
+import Home from './Home';
+
 import Business from './Business';
 import CreateBusiness from './business/CreateBusiness';
 import UpdateBusiness from './business/UpdateBusiness';
@@ -42,6 +44,7 @@ function App() {
       <div className='main-content'>
       <Routes>
       <Route path='/' element={<Dashboard />}></Route>
+      <Route path='/home' element={<Home />}></Route>
       
         <Route path='/business' element={<Business />}></Route>
         <Route path='business/createBusiness' element={<CreateBusiness/>}></Route>

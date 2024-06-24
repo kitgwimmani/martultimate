@@ -51,13 +51,13 @@ function Business() {
     return isConfirmed
   }
 
-
+// <Link to='/business/createBusiness' className='btn btn-success'>Add +</Link>
 
   return (
     <div className='main-content'>
       <Container>
         <h5 className='mt-4'>Business List</h5>
-        <Link to='/business/createBusiness' className='btn btn-success'>Add +</Link>
+        
         <Form>
           <InputGroup className='my-3' style={{ width: '100%' }}>
             <Form.Control onChange={(e) => setSearch(e.target.value)} placeholder='Search Business' />

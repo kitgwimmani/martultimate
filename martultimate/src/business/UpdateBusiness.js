@@ -5,7 +5,7 @@ import { ButtonGroup } from 'react-bootstrap';
 
 import Select from 'react-select';
 
-function UpdateLocation() {
+function UpdateBusiness() {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [profile, setProfile] = useState('');
@@ -167,4 +167,4 @@ function UpdateLocation() {
     );
 }
 
-export default UpdateLocation;
+export default UpdateBusiness;

@@ -1,0 +1,4 @@
+create view product_detail as SELECT p.id, p.name as product, c.name as category, s.name as subcategory, p.description, b.name as business, b.id as business_id, p.price, t.name as product_type, p.status, p.image, b.logo
+from product p, category c, subcategory s, business b, product_type t
+WHERE
+s.id = p.subcategory and b.id = p.business and t.id = p.product_type and s.category = c.id
